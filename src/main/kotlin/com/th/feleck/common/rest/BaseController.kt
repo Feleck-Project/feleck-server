@@ -6,7 +6,7 @@ open class BaseController {
         return ResponseBuilder.Build(data)
     }
 
-    protected fun <T> respond(error: ErrorResponse): Response<ErrorResponse> {
+    protected fun respond(error: ErrorResponse): Response<ErrorResponse> {
         return ResponseBuilder.Build(error)
     }
 }
