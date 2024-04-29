@@ -5,6 +5,7 @@ import com.th.feleck.common.rest.Response
 import com.th.feleck.user.model.User
 import com.th.feleck.user.rest.dto.UserLoginRequest
 import com.th.feleck.user.rest.dto.UserSignUpRequest
+import com.th.feleck.user.rest.dto.UserSignUpResponse
 import com.th.feleck.user.service.UserService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,17 +17,19 @@ class UserController(
 ): BaseController() {
     @PostMapping("/api/v1/users/sign-up")
     fun signUp(
-        @RequestBody userSignUpRequest: UserSignUpRequest
-    ): Response<User> {
-        val (userName, password) = userSignUpRequest
-        return respond(userService.singUp(userName, password))
+        @RequestBody request: UserSignUpRequest
+    ): Response<UserSignUpResponse> {
+        val (userName, password) = request
+        val user =  userService.singUp(userName, password)
+        val response = UserSignUpResponse.fromUser(user)
+        return respond(response)
     }
 
     @PostMapping("/api/v1/users/login")
     fun signUp(
-        @RequestBody userLoginRequest: UserLoginRequest
+        @RequestBody request: UserLoginRequest
     ): Response<String> {
-        val (userName, password) = userLoginRequest
+        val (userName, password) = request
         return respond(userService.login(userName, password))
     }
 

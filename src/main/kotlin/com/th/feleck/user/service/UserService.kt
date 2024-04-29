@@ -19,9 +19,9 @@ class UserService(
             throw CustomException("user not found with name: $userName")
 
         //회원가입 진행 = user 등
-        userEntityRepository.save(UserEntity(userName, password))
+        val userEntity = userEntityRepository.save(UserEntity.of(userName, password))
 
-        return User(userName, password)
+        return User.fromEntity(userEntity)
     }
 
     fun login(userName: String, password: String): String{
