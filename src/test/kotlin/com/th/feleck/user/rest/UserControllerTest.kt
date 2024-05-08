@@ -38,7 +38,7 @@ class UserControllerTest {
 
         val request = UserSignUpRequest(userName, password);
 
-        `when`(userService.singUp(userName, password)).thenReturn(User(userName, password))
+        `when`(userService.singUp(userName, password)).thenReturn(User(0, userName, password))
 
         //TODO : Mocking
         mockMvc.perform(

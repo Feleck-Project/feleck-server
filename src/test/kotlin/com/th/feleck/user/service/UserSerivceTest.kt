@@ -11,6 +11,7 @@ import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @SpringBootTest
 class UserSerivceTest
@@ -21,6 +22,9 @@ class UserSerivceTest
     @MockBean
     private lateinit var userEntityRepository: UserEntityRepository
 
+    @MockBean
+    private lateinit var encoder: BCryptPasswordEncoder
+
     @Test
     fun 회원가입이_정상적으로_동작하는_경우(){
 
@@ -28,6 +32,7 @@ class UserSerivceTest
         val password = "password"
 
         `when`(userEntityRepository.findByUserName(userName)).thenReturn(null)
+        `when`(encoder.encode(password)).thenReturn("encrypted_password")
         `when`(userEntityRepository.save(any())).thenReturn(UserEntityFixture.get(userName, password))
 
         assertDoesNotThrow {
@@ -44,6 +49,7 @@ class UserSerivceTest
         val password = "password"
 
         `when`(userEntityRepository.findByUserName(userName)).thenReturn(UserEntityFixture.get(userName, password))
+        `when`(encoder.encode(password)).thenReturn("encrypted_password")
         `when`(userEntityRepository.findByUserName(userName)).thenReturn(UserEntityFixture.get(userName, password))
 
         assertThrows<CustomException> {

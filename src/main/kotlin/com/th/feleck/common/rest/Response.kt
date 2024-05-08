@@ -4,8 +4,6 @@ class Response<T> {
     private var data: T? = null
     private var error: ErrorResponse? = null
 
-    constructor()
-
     constructor(errors: ErrorResponse) {
         this.error = errors
     }
@@ -16,4 +14,22 @@ class Response<T> {
 
     fun getData() = data
     fun getErrors() = error
+
+    fun toStream(): String{
+        if (data == null) {
+            return "{" +
+                    "\"data\": null," +
+                    "\"error\": {" +
+                    "\"errorCode\": \"${error?.getErrorCode()}\"," +
+                    "\"errorDescription\": \"${error?.getErrorDescription()}\"" +
+                    "}" +
+                    "}"
+        }
+        else{
+            return "{" +
+                    "\"data\": ${data}," +
+                    "\"error\": null" +
+                    "}"
+        }
+    }
 }

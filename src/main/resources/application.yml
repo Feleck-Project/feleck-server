@@ -1,22 +1,24 @@
 spring:
-
   application:
     name: feleck
   jpa:
+    database: h2 # mysql
     hibernate:
       ddl-auto: update
-
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+#        dialect: org.hibernate.dialect.MySQL5Dialect
 
-    database: mysql
+jwt:
+  secret-key: asdofinweaokfndslvcufoiwaeadsfasdf23feqdacof13eqfdav01934ejqrfdao1293wqodijsac
+  token.expired-time-ms: 2592000
 
+#  datasource:
+#    hikari:
+#      maximum-pool-size: 4
+#      url:
+#      username:
+#      password:
 
-  datasource:
-    hikari:
-      maximum-pool-size: 4
-      url:
-      username:
-      password:

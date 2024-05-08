@@ -1,8 +1,7 @@
-package com.th.feleck.user.jpa.entity
+package com.th.feleck.post.jpa.entity
 
-import com.th.feleck.user.model.UserRole
+import com.th.feleck.user.jpa.entity.UserEntity
 import jakarta.persistence.*
-import lombok.Builder
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
 import java.time.OffsetDateTime
@@ -11,12 +10,13 @@ import java.time.OffsetDateTime
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted_at = NOW() where id=?")
 @Where(clause = "deleted_at is NULL")
-class UserEntity(
-    @Column val userName: String,
-    @Column val password: String,
-    @Column
-    @Enumerated(EnumType.STRING)
-    val role: UserRole,
+class PostEntity (
+    var title: String,
+    @Column(columnDefinition = "TEXT")
+    var body: String,
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    val user: UserEntity,
     @Column var createdAt: OffsetDateTime,
     @Column var updatedAt: OffsetDateTime?,
     @Column var deletedAt: OffsetDateTime?
@@ -36,16 +36,15 @@ class UserEntity(
     var id: Long = 0
 
     companion object {
-        fun of(userName: String, password: String, role: UserRole = UserRole.USER): UserEntity {
-            return UserEntity(
-                userName = userName,
-                password = password,
-                role = role,
+        fun of(title: String, body: String, user: UserEntity): PostEntity {
+            return PostEntity(
+                title = title,
+                body = body,
+                user = user,
                 createdAt = OffsetDateTime.now(),
                 updatedAt = null,
                 deletedAt = null
             )
         }
     }
-
 }
